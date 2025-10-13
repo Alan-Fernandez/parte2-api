@@ -95,9 +95,11 @@ class RandomUserService:
                 resp.raise_for_status()
                 break
             except requests.exceptions.HTTPError as http_err:
-                print(f"HTTPError: {http_err.response.status_code} - {http_err.response.text}")
+                print(f"Erro ao acessar ScraperAPI: {http_err.response.status_code}, URL: {resp.url}, Response: {http_err.response.text}")
                 if resp.status_code == 403:
                     raise RuntimeError("Acesso negado à API. Verifique os parâmetros ou o limite de taxa.") from http_err
+                elif resp.status_code >= 500:
+                    raise RuntimeError("Erro no servidor da API. Tente novamente mais tarde.") from http_err
                 raise RuntimeError(f"Erro HTTP: {http_err}") from http_err
             except requests.RequestException as req_err:
                 print(f"RequestException: {req_err}")
