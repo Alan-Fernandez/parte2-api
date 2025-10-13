@@ -45,7 +45,11 @@ def api_usuarios():
     cidade = _norm(args.get("cidade") or "")
 
     service = RandomUserService(cfg["RANDOM_USER_API_URL"])
-    usuarios = service.buscar_usuarios(quantidade=quantidade, nacionalidade=nat, page=page, seed=cfg["RANDOM_USER_SEED"])
+    try:
+        usuarios = service.buscar_usuarios(quantidade=quantidade, nacionalidade=nat, page=page, seed=cfg["RANDOM_USER_SEED"])
+    except RuntimeError as e:
+        current_app.logger.error(f"Erro ao buscar usuários: {e}")
+        return jsonify({"error": str(e)}), 500
 
     def matches(u):
         return (

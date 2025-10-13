@@ -305,8 +305,8 @@
         updateUrl(false);
       }
     } catch (e) {
-      console.error(e);
-      setStatus('Falha ao carregar dados. Tente novamente.');
+      console.error("Error al cargar usuarios:", e);
+      setStatus("Falha ao carregar dados. Tente novamente.");
     } finally {
       togglePagerDisabled(false);
       isLoading = false;
