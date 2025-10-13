@@ -75,9 +75,12 @@ class RandomUserService:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
 
+        print(f"URL: {self.base_url}, Params: {params}, Headers: {headers}")
+
         for attempt in range(3):
             try:
                 resp = requests.get(self.base_url, params=params, headers=headers, timeout=10)
+                print(f"Response Status: {resp.status_code}, Response Body: {resp.text}")
                 resp.raise_for_status()
                 break
             except requests.exceptions.HTTPError as http_err:
