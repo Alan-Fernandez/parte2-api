@@ -55,6 +55,10 @@ python .\run.py
 
 Acesse: http://127.0.0.1:5000
 
+## Link do Deploy
+
+A aplicação está disponível no seguinte link: [https://parte2-api.onrender.com/](https://parte2-api.onrender.com/)
+
 ## Configurações
 
 As configurações padrão residem em `app/__init__.py` e podem ser alteradas conforme necessidade:
