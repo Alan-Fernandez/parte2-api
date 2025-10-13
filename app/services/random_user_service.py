@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 import requests
 import time
+from dotenv import load_dotenv
+import os
 
 
 @dataclass
@@ -34,12 +36,15 @@ class Usuario:
     telefone: Optional[str] = None
 
 
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
+
 class RandomUserService:
     """Cliente simples para interagir com a Random User API."""
 
     def __init__(self, base_url: str = "https://api.scraperapi.com") -> None:
         """Inicializa o serviço com a URL base da API."""
-        self.api_key = "YOUR_API_KEY"  # Reemplaza con tu clave de ScraperAPI o ProxyCrawl
+        self.api_key = os.getenv("SCRAPER_API_KEY")  # Leer la clave desde las variables de entorno
         self.base_url = base_url.rstrip("/")
 
     def buscar_usuarios(
