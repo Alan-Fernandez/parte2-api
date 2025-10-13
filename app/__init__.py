@@ -17,3 +17,6 @@ def create_app() -> Flask:
     app.register_blueprint(main_bp)
 
     return app
+
+# Exponer la instancia de la aplicação
+app = create_app()
