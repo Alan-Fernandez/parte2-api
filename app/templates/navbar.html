@@ -1,0 +1,27 @@
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <a href="/" class="logo-link" aria-label="Início">
+        <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo" class="logo-img theme-fade" />
+      </a>
+    </div>
+    <nav class="navigation">
+      <ul class="nav-menu">
+        <li><a href="{{ url_for('main.index') }}" class="nav-link">Início</a></li>
+        <li><a href="{{ url_for('main.usuarios') }}" class="nav-link">Usuários</a></li>
+        <li class="theme-selector">
+          <select id="themeSelector" class="theme-select" aria-label="Selecionar tema">
+            <option value="" disabled hidden>🎨 Tema</option>
+            <option value="light">Claro</option>
+            <option value="dark">Escuro</option>
+          </select>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </nav>
+  </div>
+</header>

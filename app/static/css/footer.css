@@ -1,0 +1,119 @@
+/* ======================= FOOTER ======================= */
+/* Compatível com navbar: usa .container com gutters 5% e breakpoints similares */
+
+/* Contenedor principal del footer */
+.site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--muted);
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(32px, 5vw, 60px);
+    padding-top: clamp(32px, 6vw, 60px);
+    padding-bottom: calc(clamp(24px, 5vw, 40px) + env(safe-area-inset-bottom, 0px));
+}
+
+/* Gutters del footer*/
+.site-footer .container {
+    box-sizing: border-box;
+    padding-left: var(--container-gutter-x);
+    padding-right: var(--container-gutter-x);
+    max-width: var(--container-max);
+    margin-inline: auto;
+}
+
+/* Contenido interno: logo, descripción y menú */
+.footer__conteudo {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 0;
+    flex-wrap: wrap;
+}
+
+/* Logo y marca */
+.footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer__logo-img { height: clamp(var(--logo-footer-min), 2.2vw, var(--logo-footer-max)); width: auto; display: block; }
+.footer__marca { font-weight: 700; font-size: var(--ui-brand-size); letter-spacing: 0.02em; }
+.footer__descricao {
+    margin: 4px 0 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+}
+
+/* Menú de enlaces del footer */
+.footer__menu {
+    list-style: none;
+    display: inline-flex;
+    gap: 3.5rem;
+    padding: 0;
+    margin: 0;
+}
+.footer__menu a {
+    display: inline-block;
+    padding: 6px 8px;
+    border-radius: 6px;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: var(--ui-link-size);
+    letter-spacing: 0.02em;
+    position: relative;
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.footer__menu a:hover { color: var(--primary-color); text-decoration: none; }
+.footer__menu a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* Subrayado animado accesible */
+.footer__menu a::after {
+    content: "";
+    position: absolute;
+    left: 8px; right: 8px; bottom: 4px;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+}
+.footer__menu a:hover::after, .footer__menu a:focus-visible::after { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+    .footer__menu a::after { transition: none; }
+}
+
+.footer__copy { padding: clamp(0.75rem, 1.5vw, 1rem) 0 clamp(1rem, 2vw, 1.5rem); color: var(--muted-foreground); margin-top: 0; text-align: center; font-size: var(--ui-copy-size); border-top: 1px solid var(--border); }
+
+/* ======================= RESPONSIVO ======================= */
+
+@media (max-width: 1024px) {
+    .site-footer { gap: clamp(28px, 4vw, 40px); padding-top: clamp(28px, 5vw, 48px); padding-bottom: clamp(20px, 4vw, 32px); }
+    .footer__conteudo { padding: 1.5rem 0; }
+    .footer__menu { gap: 2rem; flex-wrap: wrap; justify-content: center; }
+    .site-footer .container { max-width: var(--container-max-md); }
+}
+
+@media (max-width: 768px) {
+    .footer__conteudo {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .site-footer { gap: 32px; }
+    .footer__menu { gap: 1.25rem; }
+    .footer__menu a { padding: 4px 6px; }
+    .footer__marca { font-size: 1.125rem; }
+    .footer__menu a { font-size: 1rem; }
+}

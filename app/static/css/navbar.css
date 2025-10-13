@@ -1,0 +1,180 @@
+/* ======================= NAVBAR ======================= */
+
+/* Cabeçalho fixo com sombra e fundo conforme o tema */
+.header {
+    background: var(--background);
+    color: var(--foreground);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    height: var(--header-height);
+    box-sizing: border-box;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+                rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-bottom: 1px solid var(--border);
+    font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Layout interno: logo e navegação */
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: var(--container-gutter-x);
+    padding-right: var(--container-gutter-x);
+    height: 100%;
+}
+
+/* Logo adaptável */
+.logo-link { display: inline-flex; align-items: center; text-decoration: none; height: 100%; min-width: var(--logo-nav-width); }
+.logo-img { height: var(--logo-nav-height); width: auto; display: block; object-fit: contain; line-height: 1; }
+
+/* Menu principal */
+.navigation .nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 0;
+    align-items: center;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+.navigation .nav-menu li { margin-left: 1.5rem; }
+
+/* Links de navegação com hover suave */
+.nav-link {
+    color: var(--foreground);
+    text-decoration: none;
+    font-size: var(--ui-link-size);
+    font-weight: 400;
+    padding: 4px 8px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.2s ease;
+}
+.nav-link:hover { background-color: var(--muted); }
+
+/* Link ativo */
+.nav-link.active {
+    color: var(--primary-color);
+    background-color: color-mix(in oklab, var(--primary-color), transparent 90%);
+}
+
+/* Subrayado animado accesible */
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 8px; right: 8px; bottom: 2px;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+}
+.nav-link:hover::after, .nav-link:focus-visible::after, .nav-link.active::after { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-link::after { transition: none; }
+}
+
+/* Ícone hambúrguer (menu mobile) */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+.hamburger .bar {
+    width: 25px;
+    height: 1px;
+    background-color: var(--foreground);
+    display: block;
+    margin: 7px auto;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Animação de abrir/fechar */
+.hamburger.hamburger-active { 
+    transition: all 0.3s ease-in-out; 
+    transition-delay: 0.6s; 
+    transform: rotate(45deg); 
+}
+.hamburger.hamburger-active .bar:nth-child(2) { width: 0px; }
+.hamburger.hamburger-active .bar:nth-child(1) { transform: translateY(12px); transition-delay: 0.3s; }
+.hamburger.hamburger-active .bar:nth-child(3) { transform: translateY(-5px) rotate(90deg); transition-delay: 0.3s; }
+
+/* Seletor de tema (dropdown) */
+.theme-selector { position: relative; }
+.theme-select {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--control-radius);
+    color: var(--foreground);
+    padding: 0 2rem 0 0.9rem;
+    font-size: var(--font-size-body);
+    min-height: var(--control-height);
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.06s ease;
+    backdrop-filter: blur(10px);
+    width: 8.5rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 12px 12px;
+    line-height: 1;
+}
+.theme-select:hover {
+    background: color-mix(in oklab, var(--muted), var(--background) 35%);
+    border-color: color-mix(in oklab, var(--border), var(--primary-color) 35%);
+}
+.theme-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary-color), transparent 80%);
+}
+.theme-select:active { transform: scale(0.99); }
+.theme-select option { background: var(--background); color: var(--foreground); padding: 0.5rem; }
+.theme-select[data-placeholder="true"] { color: var(--muted-foreground); }
+.theme-select::-ms-expand { display: none; } /* IE/Edge antigo */
+
+/* ======================= RESPONSIVO ======================= */
+@media (max-width: 768px) {
+    .hamburger { display: flex; }
+
+    .nav-menu {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        background-color: var(--background);
+        width: 60%;
+        height: calc(100vh - var(--header-height));
+        padding: 16px var(--container-gutter-x);
+        text-align: left;
+        gap: 0;
+        transform: translateX(-100%);
+        transition: transform 0.45s ease;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .nav-menu li { margin: 0 0 24px 0; }
+    .nav-link { display: inline-block; padding: 5px 10px; }
+    .nav-menu.active { transform: translateX(0); }
+
+    /* Dropdown tema no painel lateral */
+    .theme-select { width: calc(100% - 48px); }
+}
+
+/* Overlay para menu móvel */
+.nav-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; visibility: hidden; transition: opacity .3s ease; z-index: 999; }
+.nav-overlay.active { opacity: 1; visibility: visible; }
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-menu { transition: none !important; }
+    .nav-overlay { transition: none !important; }
+}

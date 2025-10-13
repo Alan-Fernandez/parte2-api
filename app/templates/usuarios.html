@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Usuários - Aplicação de Usuários{% endblock %}
+
+{% block conteudo %}
+<section aria-labelledby="titulo-usuarios" class="secao">
+  <div class="container">
+  <header class="secao__cabecalho">
+    <h1 id="titulo-usuarios">Lista de Usuários</h1>
+    <p class="descricao">Dados fornecidos pela Random User API.</p>
+  </header>
+
+  <section class="ferramentas" aria-label="Ferramentas de filtro e opções">
+    <form id="formFiltro" class="ferramentas__form" role="search">
+      <label for="campoBusca">Filtrar por nome ou e-mail</label>
+      <input id="campoBusca" name="q" type="search" placeholder="Digite para filtrar..." autocomplete="off" />
+      <input id="campoEstado" name="estado" type="search" placeholder="Estado" autocomplete="off" aria-label="Filtrar por estado" list="listaEstados" />
+      <datalist id="listaEstados"></datalist>
+      <input id="campoCidade" name="cidade" type="search" placeholder="Cidade" autocomplete="off" aria-label="Filtrar por cidade" list="listaCidades" />
+      <datalist id="listaCidades"></datalist>
+      <button id="btnLimpar" type="button" class="btn" aria-label="Limpar filtros">Limpar</button>
+    </form>
+  </section>
+
+  <section class="lista" aria-live="polite" aria-busy="false">
+    <ul id="listaUsuarios" class="grid"></ul>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+    <nav class="paginacao" aria-label="Paginação de resultados">
+      <button id="btnPrev" class="btn" type="button" aria-label="Página anterior">&larr;</button>
+      <ul id="pager" class="pager" role="list"></ul>
+      <span id="paginacaoInfo" aria-live="polite"></span>
+      <button id="btnNext" class="btn" type="button" aria-label="Próxima página">&rarr;</button>
+    </nav>
+  </section>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/usuarios.js') }}" defer></script>
+{% endblock %}

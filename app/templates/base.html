@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block titulo %}Aplicação de Usuários{% endblock %}</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/Logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
+    <script>
+      (function(){
+        try {
+          var saved = localStorage.getItem('theme');
+          if (!saved) {
+            saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+          }
+          if (saved === 'dark') document.documentElement.classList.add('theme-dark');
+          var palette = localStorage.getItem('theme-palette');
+          if (palette) {
+            var alt = ['golden','violet','emerald','blue','rose'];
+            for (var i=0;i<alt.length;i++) document.documentElement.classList.remove('theme-' + alt[i]);
+            if (alt.indexOf(palette) !== -1) document.documentElement.classList.add('theme-' + palette);
+          }
+        } catch(e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div id="navbar"></div>
+  <div id="header-spacer" aria-hidden="true"></div>
+
+    <main id="conteudo" class="container" role="main">
+      {% block conteudo %}{% endblock %}
+    </main>
+
+    <div id="footer"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    <script type="module">
+      import { loadNavbar } from "{{ url_for('static', filename='js/navbar.js') }}";
+      import { loadFooter } from "{{ url_for('static', filename='js/footer.js') }}";
+      loadNavbar();
+      loadFooter();
+    </script>
+    {% block scripts %}{% endblock %}
+  </body>
+  </html>

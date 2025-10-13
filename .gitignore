@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+.env/
+.env.*
+
+# Logs y depuración
+*.log
+*.pid
+*.seed
+
+# Compilación/Distribución
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+wheelhouse/
+
+# Coverage/Testing
+.coverage
+.coverage.*
+.cache/
+nosetests.xml
+coverage.xml
+htmlcov/
+.pytest_cache/
+.junit/
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*.orig
+.DS_Store
+Thumbs.db
+
+# Flask/Runtime
+instance/
+*.db
+*.sqlite3
+*.sqlite
+
+# Node (por si se usa tooling frontend)
+node_modules/
+*.tsbuildinfo

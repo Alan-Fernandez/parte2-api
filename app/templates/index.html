@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Início - Aplicação de Usuários{% endblock %}
+
+{% block conteudo %}
+<section id="sobre" aria-labelledby="sobre-titulo" class="about secao reveal">
+  <div class="container">
+  <h1 id="sobre-titulo" class="reveal">Bem-vindo(a)</h1>
+  <div class="about-text reveal">
+      <p>
+        Esta é uma aplicação simples que consome a Random User API e exibe uma lista de
+        usuários fictícios, com recursos de filtragem e alternância de tema claro/escuro.
+      </p>
+    </div>
+
+  <div class="skills reveal" aria-label="Tecnologias e recursos">
+      <div class="skill-item">
+        <span class="skill-icon" aria-hidden="true">🐍</span>
+        <span class="skill-label">Python</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon" aria-hidden="true">⚗️</span>
+        <span class="skill-label">Flask</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon" aria-hidden="true">🌐</span>
+        <span class="skill-label">Random User API</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon" aria-hidden="true">🧩</span>
+        <span class="skill-label">JavaScript</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon" aria-hidden="true">🎨</span>
+        <span class="skill-label">CSS</span>
+      </div>
+    </div>
+
+    <p class="cta">
+      <a class="btn primario" href="{{ url_for('main.usuarios') }}">Ver usuários</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

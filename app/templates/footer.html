@@ -1,0 +1,20 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer__conteudo">
+    <div class="footer__brand">
+      <a href="/" class="footer__logo" aria-label="Início">
+     <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo" class="footer__logo-img theme-fade" />
+        <span class="footer__marca">Random Usuários</span>
+      </a>
+      <p class="footer__descricao">Exemplo educacional que consome a Random User API.</p>
+    </div>
+    <nav class="footer__nav" aria-label="Rodapé">
+      <ul class="footer__menu">
+        <li><a href="{{ url_for('main.index') }}">Início</a></li>
+        <li><a href="{{ url_for('main.usuarios') }}">Usuários</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer__copy">
+    <small>&copy; {{ 2025 }} Aplicação de Usuários — Todos os direitos reservados.</small>
+  </div>
+</footer>
