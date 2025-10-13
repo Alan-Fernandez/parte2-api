@@ -11,19 +11,9 @@ desenvolvimento com parâmetros personalizáveis via variáveis de ambiente:
 from __future__ import annotations
 
 import os
-from app import create_app
-
-
-app = create_app()
+from app import app
 
 
 if __name__ == "__main__":
-    host = os.getenv("HOST", "0.0.0.0") 
-    try:
-        port = int(os.getenv("PORT", "5000"))
-    except ValueError:
-        port = 5000
-    debug_env = os.getenv("DEBUG", "true").lower()
-    debug = debug_env in {"1", "true", "yes", "on"}
-
-    app.run(host=host, port=port, debug=debug)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
