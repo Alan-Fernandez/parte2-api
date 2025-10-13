@@ -79,3 +79,13 @@ def api_usuarios():
         "total_pages": cfg.get("PAGINATION_TOTAL_PAGES", 1),
         "usuarios": usuarios_json,
     })
+
+
+@bp.route("/test-api")
+def test_api():
+    service = RandomUserService("https://randomuser.me/api")
+    try:
+        usuarios = service.buscar_usuarios(quantidade=1)
+        return jsonify({"success": True, "usuarios": [u.__dict__ for u in usuarios]})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
