@@ -37,8 +37,9 @@ class Usuario:
 class RandomUserService:
     """Cliente simples para interagir com a Random User API."""
 
-    def __init__(self, base_url: str = "https://randomuser.me/api") -> None:
+    def __init__(self, base_url: str = "https://api.scraperapi.com") -> None:
         """Inicializa o serviço com a URL base da API."""
+        self.api_key = "YOUR_API_KEY"  # Reemplaza con tu clave de ScraperAPI o ProxyCrawl
         self.base_url = base_url.rstrip("/")
 
     def buscar_usuarios(
@@ -63,7 +64,11 @@ class RandomUserService:
         Raises:
             RuntimeError: se a requisição à API falhar.
         """
-        params: Dict[str, Any] = {"results": quantidade}
+        params: Dict[str, Any] = {
+            "api_key": self.api_key,
+            "url": "https://randomuser.me/api",
+            "results": quantidade,
+        }
         if nacionalidade:
             params["nat"] = nacionalidade
         if page is not None:
@@ -72,10 +77,8 @@ class RandomUserService:
             params["seed"] = seed
 
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
         }
-
-        print(f"URL: {self.base_url}, Params: {params}, Headers: {headers}")
 
         for attempt in range(3):
             try:
