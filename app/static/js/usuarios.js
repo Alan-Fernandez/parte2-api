@@ -266,14 +266,20 @@
     if (estado) url.searchParams.set('estado', estado);
     if (cidade) url.searchParams.set('cidade', cidade);
 
-  setStatus('');
-  listaSection && listaSection.setAttribute('aria-busy', 'true');
+    setStatus('');
+    listaSection && listaSection.setAttribute('aria-busy', 'true');
     if (opts.useSkeleton) renderSkeletons();
     togglePagerDisabled(true);
     try {
       const resp = await fetch(url.toString());
       if (!resp.ok) throw new Error(`Erro ${resp.status}`);
-      const data = await resp.json();
+
+      let data;
+      try {
+        data = await resp.json();
+      } catch (e) {
+        throw new Error('Resposta inválida do servidor.');
+      }
 
       if (lista) lista.innerHTML = '';
       if (Array.isArray(data.usuarios) && data.usuarios.length) {
@@ -299,18 +305,14 @@
         } catch {}
       } else {
         setStatus('Nenhum usuário encontrado.');
-        paginacaoInfo && (paginacaoInfo.textContent = `Página ${page}`);
-        btnNext && (btnNext.disabled = true);
-        renderPager(page, false, 1);
-        updateUrl(false);
       }
-    } catch (e) {
-      console.error("Error al cargar usuarios:", e);
-      setStatus("Falha ao carregar dados. Tente novamente.");
+    } catch (error) {
+      console.error('Erro ao carregar usuários:', error, { url: url.toString() });
+      setStatus('Erro ao carregar usuários. Tente novamente mais tarde.');
     } finally {
-      togglePagerDisabled(false);
       isLoading = false;
-      listaSection && listaSection.setAttribute('aria-busy', 'false');
+      listaSection && listaSection.removeAttribute('aria-busy');
+      togglePagerDisabled(false);
     }
   }
 
