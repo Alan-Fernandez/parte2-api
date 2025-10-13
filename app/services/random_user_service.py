@@ -44,7 +44,7 @@ class RandomUserService:
     def buscar_usuarios(
         self,
         quantidade: int = 12,
-        nacionalidade: str = "br",
+        nacionalidade: Optional[str] = None,
         page: Optional[int] = None,
         seed: Optional[str] = None,
     ) -> List[Usuario]:
@@ -63,7 +63,9 @@ class RandomUserService:
         Raises:
             RuntimeError: se a requisição à API falhar.
         """
-        params: Dict[str, Any] = {"results": quantidade, "nat": nacionalidade}
+        params: Dict[str, Any] = {"results": quantidade}
+        if nacionalidade:
+            params["nat"] = nacionalidade
         if page is not None:
             params["page"] = page
         if seed:
@@ -73,16 +75,22 @@ class RandomUserService:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
 
-        for attempt in range(3):  # Máximo 3 intentos
+        for attempt in range(3):
             try:
                 resp = requests.get(self.base_url, params=params, headers=headers, timeout=10)
                 resp.raise_for_status()
+                break
             except requests.exceptions.HTTPError as http_err:
+                print(f"HTTPError: {http_err.response.status_code} - {http_err.response.text}")
                 if resp.status_code == 403:
-                    raise RuntimeError("Acceso denegado a la API. Verifica los parâmetros o el límite de taxa.") from http_err
-                raise RuntimeError(f"Error HTTP: {http_err}") from http_err
+                    raise RuntimeError("Acesso negado à API. Verifique os parâmetros ou o limite de taxa.") from http_err
+                raise RuntimeError(f"Erro HTTP: {http_err}") from http_err
             except requests.RequestException as req_err:
-                raise RuntimeError(f"Error de conexão: {req_err}") from req_err
+                print(f"RequestException: {req_err}")
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+                else:
+                    raise RuntimeError(f"Erro de conexão: {req_err}") from req_err
 
         data: Dict[str, Any] = resp.json()
         resultados = data.get("results", []) or []
