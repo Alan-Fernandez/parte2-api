@@ -18,7 +18,7 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    host = os.getenv("HOST", "127.0.0.1")
+    host = os.getenv("HOST", "0.0.0.0") 
     try:
         port = int(os.getenv("PORT", "5000"))
     except ValueError:
