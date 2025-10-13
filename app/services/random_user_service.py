@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 import requests
+import time
 
 
 @dataclass
@@ -68,11 +69,20 @@ class RandomUserService:
         if seed:
             params["seed"] = seed
 
-        try:
-            resp = requests.get(self.base_url, params=params, timeout=10)
-            resp.raise_for_status()
-        except requests.RequestException as exc:
-            raise RuntimeError(f"Falha ao consultar a Random User API: {exc}") from exc
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+
+        for attempt in range(3):  # Máximo 3 intentos
+            try:
+                resp = requests.get(self.base_url, params=params, headers=headers, timeout=10)
+                resp.raise_for_status()
+            except requests.exceptions.HTTPError as http_err:
+                if resp.status_code == 403:
+                    raise RuntimeError("Acceso denegado a la API. Verifica los parâmetros o el límite de taxa.") from http_err
+                raise RuntimeError(f"Error HTTP: {http_err}") from http_err
+            except requests.RequestException as req_err:
+                raise RuntimeError(f"Error de conexão: {req_err}") from req_err
 
         data: Dict[str, Any] = resp.json()
         resultados = data.get("results", []) or []
